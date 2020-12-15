@@ -1,5 +1,5 @@
 Heading123: Sample file for demonstration
-****************************************
+*********************************************
 
 The initial file of the documentation. 
 
