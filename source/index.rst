@@ -3,22 +3,28 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+.. image:: ./_static/data-science.png
+    :width: 600px
+    :align: left
+    :height: 200px
+    :alt: Blog Header Pic
+
 Welcome to Rahul's Blog!
 ================================
 
+This list down the opinions of a data scientist about various data around the world
+
+
+
+
 .. toctree::
-   :maxdepth: 2
-   :caption: Table of Contents
+   :maxdepth: 1
+   :caption: Blog Entries:
    :glob:
 
    entries/*
+   
 
 
 
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

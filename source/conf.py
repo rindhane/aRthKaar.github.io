@@ -22,7 +22,7 @@ copyright = '2020, irahul'
 author = 'irahul'
 
 # The full version, including alpha/beta/rc tags
-release = 'o.1'
+release = '0.1'
 
 
 # -- General configuration ---------------------------------------------------
@@ -48,6 +48,12 @@ exclude_patterns = []
 # a list of builtin themes.
 #
 html_theme = 'alabaster'
+html_theme_options = {
+    'logo': 'logo.jpg',
+    'github_user': 'rindhane',
+    'github_repo': 'rindhane.github.io',
+    'logo_name': True,
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

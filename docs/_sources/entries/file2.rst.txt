@@ -1,4 +1,4 @@
-Heading123: Sample file for demonstration
+Empty File
 *********************************************
 
 The initial file of the documentation. 
