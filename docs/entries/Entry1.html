@@ -5,16 +5,17 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Analysis of the Air BNB Data &#8212; Data Science Blog 0.1 documentation</title>
+    <title>Should one list the spare room on Airbnb ? &#8212; Data Science Blog 0.1 documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Sample file for demonstration" href="Entry1/file3.html" />
+    <link rel="next" title="Earning Estimation and Assumptions" href="Entry1/file3.html" />
     <link rel="prev" title="Welcome to Rahul’s Blog!" href="../index.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -32,17 +33,148 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="analysis-of-the-air-bnb-data">
-<h1>Analysis of the Air BNB Data<a class="headerlink" href="#analysis-of-the-air-bnb-data" title="Permalink to this headline">¶</a></h1>
-<p>First Graph</p>
-<a class="reference internal image-reference" href="../_images/stat1.png"><img alt="First Graph" class="align-left" src="../_images/stat1.png" style="width: 600px; height: 200px;" /></a>
-<p>This file is for providing glimpse into the file structure of project.</p>
-<p><em>The list of files</em> are:
-1. Sample file
-2. Another Sample file.</p>
+  <a class="reference internal image-reference" href="../_images/title_pic.jpg"><img alt="Introduction picture" class="align-left" src="../_images/title_pic.jpg" style="width: 800px; height: 300px;" /></a>
+<hr class="docutils" />
+<div class="section" id="should-one-list-the-spare-room-on-airbnb">
+<h1>Should one list the spare room on Airbnb ?<a class="headerlink" href="#should-one-list-the-spare-room-on-airbnb" title="Permalink to this headline">¶</a></h1>
+<dl>
+<dt><strong>Introduction:</strong></dt><dd><p>Airbnb has tremendously helped the tourism to flourish in new locations which were not supported by hotel industry. They have done it through providing online service to regular home owner, or even to any ‘Bed &amp; Breakfast(b&amp;b)’ service provider, by enabling them to allow tourists, or any regular visitor, to stay in their home at affordable price during visit to the home owner’s city . Thus this service brings additional revenue options to local home owners.</p>
+</dd>
+<dt><strong>Motivation:</strong></dt><dd><p>From Airbnb perspective, inorder to grow their service in each city/region they would like to empower their home owners with data so that they provide their b&amp;b service which remains economical &amp; sustainable for both home owners and tourists/visitors. We presume that Airbnb can enhance this growth by answering relevant questions related to potential monetrary benefits of listing their proprerties. Providing details to this queries, Airbnb can thus encourage to more suitable home owners to list their availble house/apartments by providing insights from data of already occuring transactions between home owners and visitors in their city. This will help home owners to take prudent decision regarding their listing to create properous market of tourism in their city.</p>
+<p>The article will try to evaluate and present the potenial monetary benefits for home owner when they list their apartment/house on Airbnb. This evaluation is based on the publicly available data <a class="footnote-reference brackets" href="#id11" id="id1">1</a> . The focus remains primarily on the <em>Boston</em> city’s data and evaluated only on last twelve months <em>(Jan 2020-Dec 2020)</em>. Though python scripts <a class="footnote-reference brackets" href="#id12" id="id2">2</a> created to evaluate the results can be tweaked as required and similar evaluation can be done for any city or any time period.
+So let’s dive into the evaluation and results <a class="footnote-reference brackets" href="#id13" id="id3">3</a>:</p>
+</dd>
+</dl>
+<p><br></p>
+<p><strong>Q1: What is average earning potential for a general listing within a given city?</strong> <a class="footnote-reference brackets" href="#id14" id="id4">4</a></p>
+<blockquote>
+<div><p>Data From Jan/2020-Dec/2020 shows average annual earning <a class="footnote-reference brackets" href="#id15" id="id5">5</a> among the listings across Boston City is $4179. The earning gained by various listing is shown below  :</p>
+<img alt="annual earning" src="../_images/average_earning.jpg" />
+<p>Thus earning graph reveals the expected inverse relationship of earning vs probability of higher earning, applicable to any regular service market. This relationship could also been seen in the price/night offerings in a city as shown below :</p>
+<div class="figure align-default">
+<img alt="price/night options" src="../_images/price_options.jpg" />
+</div>
+<p>Above price offering graph of the Boston City’s Airbnb market, has average offering of $152 price/night to vistors. So let’s find what was the most opted price/night by visitors.</p>
+<div class="figure align-default">
+<img alt="price demand" src="../_images/price_demand.jpg" />
+</div>
+<p>The above histogram indicates, $124 price/night was the most preferred by the visitors.</p>
+<dl class="simple">
+<dt><strong>Takeaway:</strong></dt><dd><p>The average earning of Boston’s listing earns <a class="footnote-reference brackets" href="#id15" id="id6">5</a> $4179 annually <a class="footnote-reference brackets" href="#id16" id="id7">6</a> and the most preferred price for stay is $152/night. This details should help a house owner to decide on primarily basis , whether these earnings are sutiable for him to list on Airbnb.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><strong>Q2: Does visit to the city is concentrated in specific months or is distributed across the year ?</strong></p>
+<blockquote>
+<div><p>Owner would like to know whether the indicated annual earning is gained in specific months or the earning is distributed consitently across the year. The specific term used for this variation called “Seasonality in demand”. This can be evaluated by mapping the visits across the year into specific months. The year along variation in average number of visits in shown below:</p>
+<div class="figure align-default">
+<img alt="demand seasonality" src="../_images/monthly_visits.jpg" />
+</div>
+<dl class="simple">
+<dt><strong>Takeaway:</strong></dt><dd><p>Well the demand is almost consitent through out the year with slight decrease in april-june months.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><strong>Q3: The average earnings looks OK, but where are the preference which governs the different asking price ?</strong> <a class="footnote-reference brackets" href="#id16" id="id8">6</a></p>
+<blockquote>
+<div><p>As it is evident, there is huge range in the asking price by the listings, one would like to know what factors helps to bargain higher price or higher booking in a year.</p>
+<dl>
+<dt><em>Geographic Demographics</em> :</dt><dd><p>The demand and average price varies in differnt sections of the city.</p>
+<blockquote>
+<div><div class="figure align-default">
+<img alt="geographic Demographics" src="../_images/earning_distribution.jpg" />
+</div>
+</div></blockquote>
+</dd>
+<dt><em>Kind of Listing</em> :</dt><dd><p>The rental space kind is one of the factors which differentiate the listing in terms of asking price and prefence by the visitors.</p>
+<blockquote>
+<div><div class="figure align-default">
+<img alt="Listing category wise differentiate" src="../_images/categorical_demand.jpg" />
+</div>
+</div></blockquote>
+</dd>
+<dt><em>Host Responsiveness</em> :</dt><dd><p>The time taken by the host to sort out the query or accept the visitor’s request also plays factor in increasing the selection of one’s listing.</p>
+<blockquote>
+<div><div class="figure align-default">
+<img alt="Host response impact" src="../_images/host_response.jpg" />
+</div>
+</div></blockquote>
+<p>Even features like instant booking of your listing can enhance chances for getting selected.</p>
+<blockquote>
+<div><div class="figure align-default">
+<img alt="instant booking impact" src="../_images/instant_impact.jpg" />
+</div>
+</div></blockquote>
+</dd>
+<dt><em>Details’ transparency by Host</em> :</dt><dd><p>The amount of details provided by the host, also plays an factor in opting out the property.</p>
+<blockquote>
+<div><div class="figure align-default">
+<img alt="host descriptions" src="../_images/host_descriptions.jpg" />
+</div>
+</div></blockquote>
+</dd>
+<dt><strong>Takeaway:</strong></dt><dd><p>Based on the utility &amp; convenience preference by the visitors, the listings can have options to bargain higher ask price.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl>
+<dt><strong>Q4: What are the top 3 factors which influence the selection of a listing ?</strong></dt><dd><p>As demonstrated above, they are numerous factors which affect the decision of vistors in selection of a listing. Some of they can be controlled by owner while others are situational i.e out of the hands of owner.
+So to rank the influence of the factors, we built a linear model (using SVR <a class="footnote-reference brackets" href="#id17" id="id9">7</a>) and the weight-coefficients was used to rank them on relative basis. Thus from the simpler proficent ML-model <a class="footnote-reference brackets" href="#id18" id="id10">8</a>, probable factors and their relative impact was established to rank them. This rank can help owner to decide which factors he could use to increase the chance of selection of his listings.</p>
+<p>Following graph shows the relative impact of various factors in predicting the number of visits to a specific kind of listing. As the value of impact reaches towards 1, better the rank of that factor. Thus the relative rank (lower is better) of the probable factors is as follows:</p>
+<blockquote>
+<div><div class="figure align-default">
+<img alt="rank of factors" src="../_images/top3.jpg" />
+</div>
+</div></blockquote>
+<dl class="simple">
+<dt><strong>Takeaway:</strong></dt><dd><dl class="simple">
+<dt>Various factors have different level of impacts on the outcome of selection of a listing by a visitor. Among them top 3 factors which influence the visitors decision making are :</dt><dd><ol class="arabic simple">
+<li><p>Review rating of that listing by prior visitors (review_scores_value).</p></li>
+<li><p>Whether the host has been verified ().</p></li>
+<li><p>Communication rating (review_scores_communication) . This means that visitors prefer the host who communicate efficiently during their decision making process of selection of listing.</p></li>
+</ol>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+<hr class="docutils" />
+<p class="rubric">Footnotes</p>
+<dl class="footnote brackets">
+<dt class="label" id="id11"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>The publicly available data can be accessed from this <a class="reference external" href="http://insideairbnb.com/get-the-data.html">url</a></p>
+</dd>
+<dt class="label" id="id12"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Source code is available as <a class="reference external" href="https://github.com/rindhane/DataMusings">github repository</a></p>
+</dd>
+<dt class="label" id="id13"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p>Detailed &amp; thorough analysis, working of the code and the related underlying assumptions can be checked out <a class="reference external" href="https://github.com/rindhane/DataMusings/blob/master/EDA/Exploratory_Data_Analysis.ipynb">here</a> (a jupyter notebook). Only final results and visualization is demonstrated here to make it comprehensible for everyone.</p>
+</dd>
+<dt class="label" id="id14"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
+<dd><p>Here city is to be considered as Boston City. As the scope of geographic region for analysis is only Boston City.</p>
+</dd>
+<dt class="label" id="id15"><span class="brackets"><a class="fn-backref" href="#id5">5</a></span></dt>
+<dd></dd>
+</dl>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Entry1/file3.html">Sample file for demonstration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Entry1/file3.html">Earning Estimation and Assumptions</a></li>
+</ul>
+</div>
+<dl class="footnote brackets">
+<dt class="label" id="id16"><span class="brackets"><a class="fn-backref" href="#id8">6</a></span></dt>
+<dd><p>The earning seems to be low this year as there may be impact due to COVID-19 pandemic. We will provide the further study to understand year on year basis before COVID-19</p>
+</dd>
+<dt class="label" id="id17"><span class="brackets"><a class="fn-backref" href="#id9">7</a></span></dt>
+<dd><p>Since the data values has was not completely linear and has some non-linear variance, <a class="reference external" href="https://www.analyticsvidhya.com/blog/2020/03/support-vector-regression-tutorial-for-machine-learning/">SVR</a>  was selected instead of lasso/ridge model inorder to handle presence of non-linearity in the data.</p>
+</dd>
+<dt class="label" id="id18"><span class="brackets"><a class="fn-backref" href="#id10">8</a></span></dt>
+<dd></dd>
+</dl>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Entry1/factor_interdependence/file1.html">Need of Machine Learning Model</a></li>
 </ul>
 </div>
 </div>
@@ -80,8 +212,8 @@
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Blog Entries:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Analysis of the Air BNB Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="file2.html">Empty File</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Should one list the spare room on Airbnb ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Entry2.html">Resources for Data Science skills :</a></li>
 </ul>
 
 <div class="relations">
@@ -89,7 +221,7 @@
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
       <li>Previous: <a href="../index.html" title="previous chapter">Welcome to Rahul’s Blog!</a></li>
-      <li>Next: <a href="Entry1/file3.html" title="next chapter">Sample file for demonstration</a></li>
+      <li>Next: <a href="Entry1/file3.html" title="next chapter">Earning Estimation and Assumptions</a></li>
   </ul></li>
 </ul>
 </div>
