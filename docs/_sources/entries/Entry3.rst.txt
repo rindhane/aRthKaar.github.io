@@ -14,6 +14,9 @@ You can use one of these sites to provide a t-table or z-table to support one of
     * `t-table <https://s3.amazonaws.com/udacity-hosted-downloads/t-table.jpg>`_
     * `t-table or z-table <http://www.z-table.com/t-value-table.html>`_
 
+Generalized Stats Models: 
+    * `Generalized <https://www.statsmodels.org/stable/glm.html>`_
+
 
 Credits:
     `Udacity <www.udacity.com>`_
