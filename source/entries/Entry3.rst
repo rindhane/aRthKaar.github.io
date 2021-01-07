@@ -3,6 +3,7 @@ Hypothesis testing in Statistics:
 
 Reading : 
     * `Hypothesis Testing <http://stattrek.com/hypothesis-test/hypothesis-testing.aspx>`_
+    * `Effect of sample <https://www.pewresearch.org/fact-tank/2016/11/09/why-2016-election-polls-missed-their-mark/>`_
 
 Techniques:
     * `Bootstraping <https://stats.stackexchange.com/questions/26088/explaining-to-laypeople-why-bootstrapping-works>`_
