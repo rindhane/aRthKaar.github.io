@@ -1,6 +1,13 @@
 Hypothesis testing in Statistics: 
 ***********************************
 
+Reading : 
+    * `Hypothesis Testing <http://stattrek.com/hypothesis-test/hypothesis-testing.aspx>`_
+
+Techniques:
+    * `Bootstraping <https://stats.stackexchange.com/questions/26088/explaining-to-laypeople-why-bootstrapping-works>`_
+
+
 Common hypothesis tests include:
 
     * Testing a population mean `One sample t-test <http://sites.utexas.edu/sos/guided/inferential/numeric/claim/one-sample-t/>`_.
