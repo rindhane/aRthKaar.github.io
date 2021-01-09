@@ -39,10 +39,30 @@
 <dt>Reading :</dt><dd><ul class="simple">
 <li><p><a class="reference external" href="http://stattrek.com/hypothesis-test/hypothesis-testing.aspx">Hypothesis Testing</a></p></li>
 <li><p><a class="reference external" href="https://www.pewresearch.org/fact-tank/2016/11/09/why-2016-election-polls-missed-their-mark/">Effect of sample</a></p></li>
+<li><p><a class="reference external" href="http://onlinestatbook.com/2/sampling_distributions/samp_dist_mean.html">Sample Distribution</a></p></li>
 </ul>
 </dd>
 <dt>Techniques:</dt><dd><ul class="simple">
 <li><p><a class="reference external" href="https://stats.stackexchange.com/questions/26088/explaining-to-laypeople-why-bootstrapping-works">Bootstraping</a></p></li>
+<li><dl class="simple">
+<dt><a class="reference external" href="https://en.wikipedia.org/wiki/Multiple_comparisons_problem">Multiple Comparison</a></dt><dd><ul>
+<li><dl class="simple">
+<dt><a class="reference external" href="https://en.wikipedia.org/wiki/Bonferroni_correction">Bonferroni Correction</a></dt><dd><ul>
+<li><p><a class="reference external" href="https://en.wikipedia.org/w/index.php?title=Bonferroni_bound&amp;redirect=no">Boole-Boneferroni</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Closed_testing_procedure">Close Testing procedure</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Holm%E2%80%93Bonferroni_method">Holm-Boneferroni</a></p></li>
+<li><p><a class="reference external" href="https://freakonometrics.hypotheses.org/19817">p-hacking</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/%C5%A0id%C3%A1k_correction">Šidák correction</a></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p><a class="reference external" href="https://www.itl.nist.gov/div898/handbook/prc/section4/prc471.htm">Tukey’s Correction</a></p></li>
+<li><p><a class="reference external" href="http://www.nonlinear.com/support/progenesis/comet/faq/v2.0/pq-values.aspx">Q value Correction</a></p></li>
+</ul>
+</dd>
+</dl>
+</li>
 </ul>
 </dd>
 </dl>
@@ -66,6 +86,37 @@
 <dl class="simple">
 <dt>Generalized Stats Models:</dt><dd><ul class="simple">
 <li><p><a class="reference external" href="https://www.statsmodels.org/stable/glm.html">Generalized</a></p></li>
+</ul>
+</dd>
+<dt>A/B Testing :</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>Drawbacks :</dt><dd><ul>
+<li><p>Can help you compare two options, but it can’t tell you about an option you haven’t considered.</p></li>
+<li><p>Can only compare can’t tell the increment in outcome.</p></li>
+<li><dl class="simple">
+<dt>Bias results on existing users :</dt><dd><ul>
+<li><p><strong>Change Aversion:</strong> Existing users may give an unfair advantage to the old version, simply because they are unhappy with change, even if it’s ultimately for the better.</p></li>
+<li><p><strong>Novelty Effect:</strong> Existing users may give an unfair advantage to the new version, because they’re excited or drawn to the change, even if it isn’t any better in the long run.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Difficulties in A/B Testing</dt><dd><ul>
+<li><p>Novelty effect and change aversion when existing users first experience a change</p></li>
+<li><p>Sufficient traffic and conversions to have significant and repeatable results</p></li>
+<li><p>Best metric choice for making the ultimate decision (eg. measuring revenue vs. clicks)</p></li>
+<li><p>Long enough run time for the experiment to account for changes in behavior based on time of day/week or seasonal events.</p></li>
+<li><p>Practical significance of a conversion rate (the cost of launching a new feature vs. the gain from the increase in conversion)</p></li>
+<li><p>Consistency among test subjects in the control and experiment group (imbalance in the population represented in each group can lead to situations like <a class="reference external" href="https://en.wikipedia.org/wiki/Simpson%27s_paradox">Simpson’s Paradox</a>)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
 </ul>
 </dd>
 <dt>Credits:</dt><dd><p><a class="reference external" href="www.udacity.com">Udacity</a></p>
@@ -110,6 +161,8 @@
 <li class="toctree-l1"><a class="reference internal" href="Entry2.html">Resources for Data Science skills :</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Hypothesis testing in Statistics:</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Entry4.html">Stats Models :</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Entry5.html">Good Readings:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Entry6.html">Experiments Conduct Check :</a></li>
 </ul>
 
 <div class="relations">

@@ -21,8 +21,12 @@ Each blog mentioned here, guides you about very specific domain knowledge of Dat
 #. `Nitty Gritties of  ML training <https://machine-master.blogspot.com/>`_
 #. `Command Line for DS <https://bookdown.org/>`_
 #. `Visualization tips for DS <https://clauswilke.com/dataviz/>`_
+#. `An Introduction to Statistical Learning <https://statlearning.com/>`_
+    * `Book PDF <https://statlearning.com/ISLR%20Seventh%20Printing.pdf>`_
+    * `Author <http://faculty.marshall.usc.edu/gareth-james/>`_
 
 
 *General Resources* :
 
 * `Open Books <https://bookdown.org/>`_
+* `Blog by Allen Downey <https://www.allendowney.com/blog/>`_
