@@ -16,17 +16,6 @@ Resources:
     * `Simple sequential testing <https://www.evanmiller.org/sequential-ab-testing.html>`_
         * `Early Stopping <https://www.evanmiller.org/how-not-to-run-an-ab-test.html>`_
 
-Neighborhood Based Collaborative Filtering: common ways to measure the similarity between two users (or two items) including:
-    * `Measures of Similarity <https://dataaspirant.com/five-most-popular-similarity-measures-implementation-in-python/>`_
-    * Pearson's correlation coefficient
-    * Spearman's correlation coefficient
-    * Kendall's Tau
-    * Euclidean Distance
-    * Manhattan Distance
-
-Recommendation System: 
-    * `Collaborative Filtering <https://blog.dominodatalab.com/recommender-systems-collaborative-filtering/>`_
-    * `Item Weighting in Collaborative <https://www.semanticscholar.org/paper/Item-Weighting-Techniques-for-Collaborative-Baltrunas-Ricci/3e9ebcd9503ef7375c7bb334511804d1e45127e9?p2df>`_
 
 Others\Reading:
     * `Law of Total of Variance <https://en.wikipedia.org/wiki/Law_of_total_variance>`_ 

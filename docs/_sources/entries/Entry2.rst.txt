@@ -14,7 +14,8 @@ Each blog mentioned here, guides you about very specific domain knowledge of Dat
 
 *The links to dedicated resources* as follows:
 
-1. `Text Mining <https://www.tidytextmining.com/>`_ 
+1. `Data Mining <https://www-users.cs.umn.edu/~kumar001/dmbook/index.php>`_
+#. `Text Mining <https://www.tidytextmining.com/>`_ 
 #. `Statitical Inference in DS <https://moderndive.com/>`_
 #. `ML intrepretability <https://christophm.github.io/interpretable-ml-book/>`_.
 #. `Data Science in daily lifes  <http://databrit.blogspot.com/>`_
