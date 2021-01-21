@@ -154,7 +154,7 @@ So will *YOU*, list your spare room on  Airbnb?
 
 .. rubric:: Footnotes
 .. [#] The publicly available data can be accessed from this `url <http://insideairbnb.com/get-the-data.html>`_ 
-.. [#] Source code is available as `github repository <https://github.com/rindhane/DataMusings>`_
+.. [#] Source code is available as `github repository <https://github.com/rindhane/DataMusings/tree/master/AirBnB_realty>`_
 .. [#] Detailed & thorough analysis, working of the code and the related underlying assumptions can be checked out `here <https://github.com/rindhane/DataMusings/blob/master/EDA/Exploratory_Data_Analysis.ipynb>`_ (a jupyter notebook). Only final results and visualization is demonstrated here to make it comprehensible for everyone. 
 .. [#] Here city is to be considered as Boston City. As the scope of geographic region for analysis is only Boston City. 
 .. [#] 
