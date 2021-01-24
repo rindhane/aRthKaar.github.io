@@ -27,3 +27,9 @@ Articles to read :
     * `Deep learning <https://ebaytech.berlin/deep-learning-for-recommender-systems-48c786a20e1a>`_
     * `Objective setting of recommendation systems <https://gab41.lab41.org/recommender-systems-its-not-all-about-the-accuracy-562c7dceeaff>`_
     * `Scales for response collection <https://cxl.com/blog/survey-response-scales/>`_
+
+Handling Issues : 
+    * `Cold User Problem <https://towardsdatascience.com/solving-cold-user-problem-for-recommendation-system-using-multi-armed-bandit-d36e42fe8d44>`_
+    * `Comparison of user vs item collaborative filtering <https://medium.com/@wwwbbb8510/comparison-of-user-based-and-item-based-collaborative-filtering-f58a1c8a3f1d>`_
+    * `Recommendation using matrix Factorization <https://medium.com/@paritosh_30025/recommendation-using-matrix-factorization-5223a8ee1f4>`_
+    
