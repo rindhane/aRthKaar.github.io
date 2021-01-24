@@ -12,6 +12,7 @@ Resources:
     * `Modern Statistics <http://web.stanford.edu/class/bios221/book/Chap-Mixtures.html>`_
     * `Blog on statistical Modeling <https://statisticalmodeling.wordpress.com/2011/06/14/an-example-of-a-mixture/>`_
     * `AB testing <https://www.evanmiller.org/ab-testing/>`_
+        * `A/B tesing <https://vwo.com/ab-testing/>`_
     * `Sequential Probability ratio test <https://en.wikipedia.org/wiki/Sequential_probability_ratio_test>`_
     * `Simple sequential testing <https://www.evanmiller.org/sequential-ab-testing.html>`_
         * `Early Stopping <https://www.evanmiller.org/how-not-to-run-an-ab-test.html>`_

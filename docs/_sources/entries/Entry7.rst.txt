@@ -22,11 +22,15 @@ Techniques invovled :
 
 
 Articles to read : 
+    * `Evaluation recommender systems <https://medium.com/recombee-blog/evaluating-recommender-systems-choosing-the-best-one-for-your-business-c688ab781a35>`_
     * `AirBnB recommendation <https://medium.com/airbnb-engineering/listing-embeddings-for-similar-listing-recommendations-and-real-time-personalization-in-search-601172f7603e>`_
     * `Location based recommendation systems <https://link.springer.com/referenceworkentry/10.1007%2F978-3-319-17885-1_1580>`_
     * `Deep learning <https://ebaytech.berlin/deep-learning-for-recommender-systems-48c786a20e1a>`_
     * `Objective setting of recommendation systems <https://gab41.lab41.org/recommender-systems-its-not-all-about-the-accuracy-562c7dceeaff>`_
     * `Scales for response collection <https://cxl.com/blog/survey-response-scales/>`_
+    * `SVD system introduction <https://towardsdatascience.com/an-introduction-to-svd-and-its-widely-used-applications-f5b8f19cb6cb>`_
+    * `Funk SVD working <https://medium.com/datadriveninvestor/how-funk-singular-value-decomposition-algorithm-work-in-recommendation-engines-36f2fbf62cac>`_
+
 
 Handling Issues : 
     * `Cold User Problem <https://towardsdatascience.com/solving-cold-user-problem-for-recommendation-system-using-multi-armed-bandit-d36e42fe8d44>`_
