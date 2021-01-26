@@ -265,7 +265,7 @@ Let's build the neural network since we have all the ingredients with us .
         Non-trainable params: 0
         _________________________________________________________________
 
-
+|br|
 
 **Implementation of application**
 
@@ -377,7 +377,7 @@ Following are the results when tried on following 4 test images :
 
 
 .. rubric:: Footnotes
-.. [#] `Guidelines for project setup <https://github.com/rindhane/Img_Classifier#project-instructions>`_
+.. [#] `Guidelines for project setup <https://github.com/rindhane/Img_Classifier#getting-started-guide>`_
 .. [#] `Resource to learn about Tensor  <https://medium.com/data-science-bootcamp/understand-tensors-and-matrices-2ea361e303b8>`_
 
 .. |br| raw:: html
