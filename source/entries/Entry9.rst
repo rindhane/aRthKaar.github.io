@@ -39,7 +39,7 @@ To build this convolution networks we will be using keras-libraries to build our
 
 **Data Preparation**
 
-We would require enough images to have our model suitably trained for good accuracy.You can follow the instructions indicated `here <https://github.com/rindhane/Img_Classifier>`_ [#]_ to get yourself setup for data and next procedures. In the provided instrcutions we are downloading the zip files from `LFW <http://vis-www.cs.umass.edu/lfw/>`_ and `ImageNet <http://www.image-net.org/>`_ for human faces and dogs breed. By using zip files provided in the instructions and extracting them, we finally get well labelled folders of images. This will help automatically labelling them when we load these images. 
+We would require enough images to have our model suitably trained for good accuracy.You can follow the instructions indicated `here <https://github.com/rindhane/DataMusings/tree/master/Img_Classifier>`_ [#]_ to get yourself setup for data and next procedures. In the provided instrcutions we are downloading the zip files from `LFW <http://vis-www.cs.umass.edu/lfw/>`_ and `ImageNet <http://www.image-net.org/>`_ for human faces and dogs breed. By using zip files provided in the instructions and extracting them, we finally get well labelled folders of images. This will help automatically labelling them when we load these images. 
 
 After extracting, we will load these files into variables for further analysis, through the use of the ``load_files`` function from the scikit-learn library:
 
@@ -377,7 +377,7 @@ Following are the results when tried on following 4 test images :
 
 
 .. rubric:: Footnotes
-.. [#] `Guidelines for project setup <https://github.com/rindhane/Img_Classifier#getting-started-guide>`_
+.. [#] `Guidelines for project setup <https://github.com/rindhane/DataMusings/tree/master/Img_Classifier#getting-started-guide>`_
 .. [#] `Resource to learn about Tensor  <https://medium.com/data-science-bootcamp/understand-tensors-and-matrices-2ea361e303b8>`_
 
 .. |br| raw:: html
