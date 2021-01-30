@@ -1,0 +1,457 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Classifier for Dog Breed &#8212; Data Science Blog 0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Data Science Best Practices :" href="Entry8.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="image-classifier-for-dog-breed">
+<h1>Image Classifier for Dog Breed<a class="headerlink" href="#image-classifier-for-dog-breed" title="Permalink to this headline">¶</a></h1>
+<div class="align-center figure align-left" id="id6">
+<a class="reference internal image-reference" href="../_images/intro.png"><img alt="Introduction picture" src="../_images/intro.png" style="width: 800px; height: 300px;" /></a>
+<p class="caption"><span class="caption-text">getty images</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+</div>
+<hr class="docutils" />
+<p><br></p>
+<p><strong>Introduction</strong></p>
+<p>This article will demonstrate on how to build a fantastic app, primarily based on python, that will help you to classify an dog’s image to its relevant breed. We will also add a fun extension that will add feature to classify an human image with its resemblance to a dog breed.</p>
+<p>Before I dug deep into the specifics of the project, I would like to mention that this project was Capstone project for my Udacity’s Data Science NanoDegree. So I would like to say thanks to Udacity team for guiding the whole process.</p>
+<p><br></p>
+<p><strong>Overview</strong></p>
+<p>The methodology to build this classifier will use the concept of convultional neural network (cnn). The application built on this cnn should be able to take input of the image path and provide output the breed of the dog if it is a dog image and if the image pertains a human it will provide output of the most resembling dog breed.You can learn more about the cnn working though this <a class="reference external" href="https://en.wikipedia.org/wiki/Convolutional_neural_network">source</a> . We will focus on how to build such cnn into our application.</p>
+<p>To build this convolution networks we will be using keras-libraries to build our complete model and data images from <a class="reference external" href="http://www.image-net.org/">Imagenet</a> . So in large we will go through following step in order to build our application :</p>
+<ol class="arabic simple">
+<li><p>Get image datasets to train our model</p></li>
+<li><p>Setup to preprocess our images into tensor</p></li>
+<li><p>Functions to detect human faces and dog images</p></li>
+<li><p>Creating a CNN from scratch (To understand its components)</p></li>
+<li><p>Using transfer learning to build efficient CNN</p></li>
+<li><p>Final setup to complete the application</p></li>
+</ol>
+<p><br></p>
+<p><strong>Data Preparation</strong></p>
+<p>We would require enough images to have our model suitably trained for good accuracy.You can follow the instructions indicated <a class="reference external" href="https://github.com/rindhane/DataMusings/tree/master/Img_Classifier">here</a> <a class="footnote-reference brackets" href="#id4" id="id1">1</a> to get yourself setup for data and next procedures. In the provided instrcutions we are downloading the zip files from <a class="reference external" href="http://vis-www.cs.umass.edu/lfw/">LFW</a> and <a class="reference external" href="http://www.image-net.org/">ImageNet</a> for human faces and dogs breed. By using zip files provided in the instructions and extracting them, we finally get well labelled folders of images. This will help automatically labelling them when we load these images.</p>
+<p>After extracting, we will load these files into variables for further analysis, through the use of the <code class="docutils literal notranslate"><span class="pre">load_files</span></code> function from the scikit-learn library:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">train_files</span></code>, <code class="docutils literal notranslate"><span class="pre">valid_files</span></code>, <code class="docutils literal notranslate"><span class="pre">test_files</span></code> - numpy arrays containing file paths to images</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">train_targets</span></code>, <code class="docutils literal notranslate"><span class="pre">valid_targets</span></code>, <code class="docutils literal notranslate"><span class="pre">test_targets</span></code> - numpy arrays containing onehot-encoded classification labels</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dog_names</span></code> - list of string-valued dog breed names for translating labels</p></li>
+</ul>
+<p>This will also help to properly segreate the data into the training , validation and testing sets.</p>
+<p>The code to enable it as follows :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># function to load train, test, and validation datasets</span>
+<span class="k">def</span> <span class="nf">load_dataset</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">load_files</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">dog_files</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;filenames&#39;</span><span class="p">])</span>
+    <span class="n">dog_targets</span> <span class="o">=</span> <span class="n">np_utils</span><span class="o">.</span><span class="n">to_categorical</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]),</span> <span class="mi">133</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dog_files</span><span class="p">,</span> <span class="n">dog_targets</span>
+
+<span class="c1"># load train, test, and validation datasets</span>
+<span class="n">train_files</span><span class="p">,</span> <span class="n">train_targets</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="n">data</span><span class="o">/</span><span class="n">dog_images</span><span class="o">/</span><span class="n">train</span><span class="s1">&#39;)</span>
+<span class="n">valid_files</span><span class="p">,</span> <span class="n">valid_targets</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;data/dog_images/valid&#39;</span><span class="p">)</span>
+<span class="n">test_files</span><span class="p">,</span> <span class="n">test_targets</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;data/dog_images/test&#39;</span><span class="p">)</span>
+
+<span class="c1"># load list of dog names</span>
+<span class="n">dog_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="mi">20</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;data/dog_images/train/*/&quot;</span><span class="p">))]</span>
+
+<span class="c1"># load filenames in shuffled human dataset</span>
+<span class="n">human_files</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;data/lfw/*/*&quot;</span><span class="p">))</span>
+<span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">human_files</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><br></p>
+<p><strong>Data Exploration :</strong></p>
+<dl class="simple">
+<dt>The data obtained from the sources have following characteristics :</dt><dd><ol class="arabic simple">
+<li><p>Total dog categories : <code class="docutils literal notranslate"><span class="pre">133</span></code></p></li>
+<li><p>Total dog images : <code class="docutils literal notranslate"><span class="pre">8351</span></code></p></li>
+<li><p>No. of training dog images : <code class="docutils literal notranslate"><span class="pre">6680</span></code></p></li>
+<li><p>No. of Dog Images for validation set : <code class="docutils literal notranslate"><span class="pre">835</span></code></p></li>
+<li><p>No. of test Dog Images : <code class="docutils literal notranslate"><span class="pre">836</span></code></p></li>
+</ol>
+</dd>
+</dl>
+<p>Thing to not here is that this numpy array only contains the path of the images.</p>
+<p><br></p>
+<p><strong>Image Pre-processing</strong></p>
+<p>If you check the shape of the image,especially the dog images ,you will find that each image has different resolution. Thus all the images we have need to be brought into same size/shape inorder to have them analyzed by the neural networks. This is because each pixel in picture is considered one data point and neutral network at entry point can connect with fixed number of data points.</p>
+<p>Thus following function are created to reduce the images in our index into shape of [224,224,3] :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">keras.preprocessing</span> <span class="kn">import</span> <span class="n">image</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="k">def</span> <span class="nf">path_to_tensor</span><span class="p">(</span><span class="n">img_path</span><span class="p">):</span>
+    <span class="c1"># loads RGB image as PIL.Image.Image type</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">load_img</span><span class="p">(</span><span class="n">img_path</span><span class="p">,</span> <span class="n">target_size</span><span class="o">=</span><span class="p">(</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+    <span class="c1"># convert PIL.Image.Image type to 3D tensor with shape (224, 224, 3)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">img_to_array</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="c1"># convert 3D tensor to 4D tensor with shape (1, 224, 224, 3) and return 4D tensor</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">paths_to_tensor</span><span class="p">(</span><span class="n">img_paths</span><span class="p">):</span>
+    <span class="n">list_of_tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">path_to_tensor</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span> <span class="k">for</span> <span class="n">img_path</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">img_paths</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">list_of_tensors</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note:</p>
+<ol class="arabic simple">
+<li><p>This function takes a single image path or array of them and convert into tensor of <code class="docutils literal notranslate"><span class="pre">[*</span> <span class="pre">,224,244,3]</span></code> shapes respectively. <a class="footnote-reference brackets" href="#id5" id="id3">2</a></p></li>
+</ol>
+<p><br></p>
+<p>Secondly, neural network learning is balanced when the values are within (0 ,1). So we will scale the RGB values from (0,254) to (0,1).</p>
+<p>Thus following conversion are used to scale each pixel (RGB) value between (0,1):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train_tensors</span> <span class="o">=</span> <span class="n">paths_to_tensor</span><span class="p">(</span><span class="n">train_files</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span><span class="o">/</span><span class="mi">255</span>
+<span class="n">valid_tensors</span> <span class="o">=</span> <span class="n">paths_to_tensor</span><span class="p">(</span><span class="n">valid_files</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span><span class="o">/</span><span class="mi">255</span>
+<span class="n">test_tensors</span> <span class="o">=</span> <span class="n">paths_to_tensor</span><span class="p">(</span><span class="n">test_files</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span><span class="o">/</span><span class="mi">255</span>
+</pre></div>
+</div>
+<p><br></p>
+<p><strong>Functions to detect Human Faces and Dog Parts</strong></p>
+<p>Since the data is ready to be consumed for our model, before start creating model, we need to create functionality which can detect whether given image has human face or has dog in it. After detecting this then only we can further process to detect the image. This mentioned concept will work as the central check in our algorithm for our application.</p>
+<p>So we will use the following functions to detect human faces and dog pictures respectively:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#detect human faces</span>
+<span class="c1"># returns &quot;True&quot; if face is detected in image stored at img_path</span>
+<span class="k">def</span> <span class="nf">face_detector</span><span class="p">(</span><span class="n">img_path</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span>
+    <span class="n">gray</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+    <span class="n">faces</span> <span class="o">=</span> <span class="n">face_cascade</span><span class="o">.</span><span class="n">detectMultiScale</span><span class="p">(</span><span class="n">gray</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">faces</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+<span class="c1">#detect dog presence in picture</span>
+<span class="kn">from</span> <span class="nn">keras.applications.resnet50</span> <span class="kn">import</span> <span class="n">preprocess_input</span><span class="p">,</span> <span class="n">decode_predictions</span>
+<span class="k">def</span> <span class="nf">ResNet50_predict_labels</span><span class="p">(</span><span class="n">img_path</span><span class="p">):</span>
+    <span class="c1"># returns prediction vector for image located at img_path</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">preprocess_input</span><span class="p">(</span><span class="n">path_to_tensor</span><span class="p">(</span><span class="n">img_path</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">ResNet50_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">img</span><span class="p">))</span>
+
+<span class="c1"># returns &quot;True&quot; if a dog is detected in the image stored at img_path</span>
+<span class="k">def</span> <span class="nf">dog_detector</span><span class="p">(</span><span class="n">img_path</span><span class="p">):</span>
+    <span class="n">prediction</span> <span class="o">=</span> <span class="n">ResNet50_predict_labels</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">((</span><span class="n">prediction</span> <span class="o">&lt;=</span> <span class="mi">268</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">prediction</span> <span class="o">&gt;=</span> <span class="mi">151</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><br></p>
+<p><strong>Build dog breed detection</strong></p>
+<p>Let’s build the neural network since we have all the ingredients with us .</p>
+<blockquote>
+<div><p><strong>CNN from Scratch</strong> :</p>
+<p>To build a cnn, you have to create a series of perceptron layer which learns specific a feature about of the given data. If you refer the titular picture, you could undertand that different types of perceptron layers used like : Convolution layer, pooling layer, connected layer etc. So to build our own CNN layer, we built the following model architecture for the application:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Model</span><span class="p">:</span> <span class="s2">&quot;sequential&quot;</span>
+<span class="n">_________________________________________________________________</span>
+<span class="n">Layer</span> <span class="p">(</span><span class="nb">type</span><span class="p">)</span>                 <span class="n">Output</span> <span class="n">Shape</span>              <span class="n">Param</span> <span class="c1">#</span>
+<span class="o">=================================================================</span>
+<span class="n">conv2d</span> <span class="p">(</span><span class="n">Conv2D</span><span class="p">)</span>              <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">223</span><span class="p">,</span> <span class="mi">223</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>      <span class="mi">208</span>
+<span class="n">_________________________________________________________________</span>
+<span class="n">max_pooling2d</span> <span class="p">(</span><span class="n">MaxPooling2D</span><span class="p">)</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">111</span><span class="p">,</span> <span class="mi">111</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>      <span class="mi">0</span>
+<span class="n">_________________________________________________________________</span>
+<span class="n">conv2d_1</span> <span class="p">(</span><span class="n">Conv2D</span><span class="p">)</span>            <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>      <span class="mi">2080</span>
+<span class="n">_________________________________________________________________</span>
+<span class="n">max_pooling2d_1</span> <span class="p">(</span><span class="n">MaxPooling2</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>        <span class="mi">0</span>
+<span class="n">_________________________________________________________________</span>
+<span class="n">conv2d_2</span> <span class="p">(</span><span class="n">Conv2D</span><span class="p">)</span>            <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>        <span class="mi">8256</span>
+<span class="n">_________________________________________________________________</span>
+<span class="n">max_pooling2d_2</span> <span class="p">(</span><span class="n">MaxPooling2</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>        <span class="mi">0</span>
+<span class="n">_________________________________________________________________</span>
+<span class="n">global_average_pooling2d</span> <span class="p">(</span><span class="n">Gl</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>                <span class="mi">0</span>
+<span class="n">_________________________________________________________________</span>
+<span class="n">dense</span> <span class="p">(</span><span class="n">Dense</span><span class="p">)</span>                <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">133</span><span class="p">)</span>               <span class="mi">8645</span>
+<span class="o">=================================================================</span>
+<span class="n">Total</span> <span class="n">params</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span><span class="mi">189</span>
+<span class="n">Trainable</span> <span class="n">params</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span><span class="mi">189</span>
+<span class="n">Non</span><span class="o">-</span><span class="n">trainable</span> <span class="n">params</span><span class="p">:</span> <span class="mi">0</span>
+<span class="n">_________________________________________________________________</span>
+</pre></div>
+</div>
+<p>The code to generate this cnn from keras library is as follows :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Conv2D</span><span class="p">,</span> <span class="n">MaxPooling2D</span><span class="p">,</span> <span class="n">GlobalAveragePooling2D</span>
+<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Dropout</span><span class="p">,</span> <span class="n">Flatten</span><span class="p">,</span> <span class="n">Dense</span>
+<span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
+<span class="kn">from</span> <span class="nn">keras</span> <span class="kn">import</span> <span class="n">Input</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span><span class="n">filters</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="p">,</span><span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="n">pool_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Conv2D</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="n">pool_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Conv2D</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="n">pool_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">GlobalAveragePooling2D</span><span class="p">())</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">133</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;softmax&quot;</span><span class="p">))</span>
+
+<span class="c1">#print model</span>
+<span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>When we train this model, we see that it takes much time to learn. In our case, each loop took almost 3 min per epoch on CPU and for 20 epoch it took and hour. After this 20 epoch training period, it <code class="docutils literal notranslate"><span class="pre">accuracy</span> <span class="pre">was</span> <span class="pre">around</span> <span class="pre">5%</span></code>.</p>
+<p>So thus to improve the learning rate and accuracy, we have to use the technique called <code class="docutils literal notranslate"><span class="pre">transfer</span> <span class="pre">learning</span></code>.</p>
+<p><br></p>
+<p><strong>Improving and Fine-Tuning the model</strong> :</p>
+<blockquote>
+<div><div class="align-center figure align-left" id="id7">
+<a class="reference internal image-reference" href="../_images/transferLearning.png"><img alt="transfer learning" src="../_images/transferLearning.png" style="width: 800px; height: 300px;" /></a>
+<p class="caption"><span class="caption-text">getty images</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</div>
+</div></blockquote>
+<p>Transfer learning helps to create custom cnn from already rigorously pre-trained model for a specific objective. In this technique, weights of pre-trained (except of final fully connected layer) are obtained and coupled to new dense layer to retrain on the given data . Here the learning or weight modification happens only for dense layer . In our case using the feature from one of the pre-trained models like ResNet50, VGG16, VGG19 &amp; InceptionV3 present in keras, a fully connected layer will be trained to detect the breed out of available 133 categories.</p>
+<p>Thus following code will create the model by using bottleneck_feature technique :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#obtaining bottleneck features out of pre-trained network</span>
+<span class="n">network</span><span class="o">=</span><span class="s1">&#39;InceptionV3&#39;</span>
+<span class="n">bottleneck_features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;bottleneck_features/Dog</span><span class="si">{</span><span class="n">network</span><span class="si">}</span><span class="s1">Data.npz&#39;</span><span class="p">)</span>
+<span class="n">train_incept</span> <span class="o">=</span> <span class="n">bottleneck_features</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">]</span>
+<span class="n">valid_incept</span> <span class="o">=</span> <span class="n">bottleneck_features</span><span class="p">[</span><span class="s1">&#39;valid&#39;</span><span class="p">]</span>
+<span class="n">test_incept</span> <span class="o">=</span> <span class="n">bottleneck_features</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">]</span>
+
+<span class="n">Incept_model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+<span class="n">Incept_model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">GlobalAveragePooling2D</span><span class="p">(</span><span class="n">input_shape</span><span class="o">=</span><span class="n">train_incept</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
+<span class="n">Incept_model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">133</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">))</span>
+
+<span class="n">Incept_model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+
+<span class="n">Model</span><span class="p">:</span> <span class="s2">&quot;sequential_2&quot;</span>
+<span class="n">_________________________________________________________________</span>
+<span class="n">Layer</span> <span class="p">(</span><span class="nb">type</span><span class="p">)</span>                 <span class="n">Output</span> <span class="n">Shape</span>              <span class="n">Param</span> <span class="c1">#</span>
+<span class="o">=================================================================</span>
+<span class="n">global_average_pooling2d_2</span> <span class="p">(</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">2048</span><span class="p">)</span>              <span class="mi">0</span>
+<span class="n">_________________________________________________________________</span>
+<span class="n">dense_2</span> <span class="p">(</span><span class="n">Dense</span><span class="p">)</span>              <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">133</span><span class="p">)</span>               <span class="mi">272517</span>
+<span class="o">=================================================================</span>
+<span class="n">Total</span> <span class="n">params</span><span class="p">:</span> <span class="mi">272</span><span class="p">,</span><span class="mi">517</span>
+<span class="n">Trainable</span> <span class="n">params</span><span class="p">:</span> <span class="mi">272</span><span class="p">,</span><span class="mi">517</span>
+<span class="n">Non</span><span class="o">-</span><span class="n">trainable</span> <span class="n">params</span><span class="p">:</span> <span class="mi">0</span>
+<span class="n">_________________________________________________________________</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><br></p>
+<p><strong>Implementation of application</strong></p>
+<dl class="simple">
+<dt>By using the fruits of above explained , we can now create a detection function which will to intended job as asked by the problem statement of this article:</dt><dd><ol class="arabic simple">
+<li><p>For human in picture provide the resemblance with dog breed.</p></li>
+<li><p>For dog in picture, predicts its breed.</p></li>
+</ol>
+</dd>
+</dl>
+<p>Thus following function created will do that job :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">extract_bottleneck_features</span> <span class="kn">import</span> <span class="n">extract_InceptionV3</span>
+
+<span class="k">def</span> <span class="nf">predict_breed</span><span class="p">(</span><span class="n">img_path</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">extract_InceptionV3</span> <span class="p">,</span><span class="n">model</span><span class="o">=</span><span class="n">Incept_model</span><span class="p">,</span>
+                <span class="n">names_list</span><span class="o">=</span><span class="n">dog_names</span><span class="p">):</span>
+    <span class="c1">#extract tensor from img path and then bottlnect_feature</span>
+    <span class="n">tensor</span><span class="o">=</span><span class="n">path_to_tensor</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span>
+    <span class="n">bottleneck_feature</span><span class="o">=</span><span class="n">extractor</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+    <span class="c1"># obtain predicted vector</span>
+    <span class="n">predicted_vector</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">bottleneck_feature</span><span class="p">)</span>
+    <span class="c1">#display img from img_path</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span>
+    <span class="n">cv_rgb</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv_rgb</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="c1"># return dog breed that is predicted by the model</span>
+    <span class="k">return</span> <span class="n">names_list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">predicted_vector</span><span class="p">)]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">predict_outcome</span><span class="p">(</span><span class="n">img_path</span><span class="p">):</span>
+<span class="k">if</span> <span class="n">face_detector</span><span class="p">(</span><span class="n">img_path</span><span class="p">):</span>
+    <span class="n">breed</span> <span class="o">=</span> <span class="n">predict_breed</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The human in the picture has resemblance to &#39;</span><span class="si">{</span><span class="n">breed</span><span class="si">}</span><span class="s2">&#39; dog breed &quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">dog_detector</span><span class="p">(</span><span class="n">img_path</span><span class="p">):</span>
+    <span class="n">breed</span> <span class="o">=</span> <span class="n">predict_breed</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The detected dog in the picture belongs to &#39;</span><span class="si">{</span><span class="n">breed</span><span class="si">}</span><span class="s2">&#39; breed &quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span> <span class="s2">&quot;Image is unrecognizable towards any Dog or Human, please provide better picture&quot;</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p><br></p>
+<p><strong>Results</strong></p>
+<p>Following are the results when tried on following 4 test images :</p>
+<blockquote>
+<div><div class="figure align-left" id="id8">
+<a class="reference internal image-reference" href="../_images/trump1.png"><img alt="result1" src="../_images/trump1.png" style="width: 250px; height: 250px;" /></a>
+<p class="caption"><span class="caption-text">Result 1: Outcome of Donald_Trump.jpg</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+<div class="legend">
+<p>The human in the picture has resemblance to ‘Icelandic_sheepdog’ dog breed</p>
+</div>
+</div>
+</div></blockquote>
+<p><br></p>
+<blockquote>
+<div><div class="figure align-left" id="id9">
+<a class="reference internal image-reference" href="../_images/shepherd1.png"><img alt="result2" src="../_images/shepherd1.png" style="width: 250px; height: 250px;" /></a>
+<p class="caption"><span class="caption-text">Result 2: Outcome of shepherd_2.jpeg</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+<div class="legend">
+<p>The detected dog in the picture belongs to ‘German_shepherd_dog’ breed</p>
+</div>
+</div>
+</div></blockquote>
+<p><br></p>
+<blockquote>
+<div><div class="figure align-left" id="id10">
+<a class="reference internal image-reference" href="../_images/biden1.png"><img alt="result3" src="../_images/biden1.png" style="width: 250px; height: 250px;" /></a>
+<p class="caption"><span class="caption-text">Result 3: Outcome of Joe_Biden.jpg</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+<div class="legend">
+<p>The human in the picture has resemblance to ‘Icelandic_sheepdog’ dog breed</p>
+</div>
+</div>
+</div></blockquote>
+<p><br></p>
+<blockquote>
+<div><div class="figure align-left" id="id11">
+<a class="reference internal image-reference" href="../_images/dalmation.png"><img alt="result4" src="../_images/dalmation.png" style="width: 250px; height: 250px;" /></a>
+<p class="caption"><span class="caption-text">Result 4: Outcome of dalmatian.jpeg</span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
+<div class="legend">
+<p>The detected dog in the picture belongs to ‘Dalmatian’ breed</p>
+</div>
+</div>
+</div></blockquote>
+<p><strong>Improvements for the future</strong></p>
+<blockquote>
+<div><dl class="simple">
+<dt>Following steps can be taken to improve the complete application:</dt><dd><ol class="arabic simple">
+<li><p>Increasing the depth of the fully connected layer, to enhance the accuracy of breed detection.</p></li>
+<li><p>Using Data Augmentation to increase the detection precision even for bad quality pictures.</p></li>
+<li><p>Improving the detection algorithm to handle the case of picture having person and dog in it .</p></li>
+<li><p>Providing more data related to each breed to increase the accuracy towards special cases of the breeds.</p></li>
+<li><p>If memory and computation permits, using 3 or more models to pass the given the image and use the consensus predicted results to increase the accuracy further. This will help to remove the inherent accuracy among each of the model.</p></li>
+</ol>
+</dd>
+</dl>
+</div></blockquote>
+<p><br></p>
+<p><strong>Conclusion :</strong></p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>We demonstrated that by using convultional network , a python application can be created to detect the dog breed.</p></li>
+<li><p>As fun extension, we also tried the model to provide the resemblance breed of dog for the human in picture.</p></li>
+<li><p>Model worked with around 80% accuracy and provided guidelines to further fine tune this model.</p></li>
+<li><p>Used transfer learning technique like bottleneck-features to speed up the training process.</p></li>
+</ol>
+</div></blockquote>
+<p class="rubric">Footnotes</p>
+<dl class="footnote brackets">
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p><a class="reference external" href="https://github.com/rindhane/DataMusings/tree/master/Img_Classifier#getting-started-guide">Guidelines for project setup</a></p>
+</dd>
+<dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id3">2</a></span></dt>
+<dd><p><a class="reference external" href="https://medium.com/data-science-bootcamp/understand-tensors-and-matrices-2ea361e303b8">Resource to learn about Tensor</a></p>
+</dd>
+</dl>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+    
+    <h1 class="logo logo-name">Data Science Blog</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=rindhane&repo=rindhane.github.io&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Blog Entries:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Entry1.html">Is there a monetary upside in listing a spare room on Airbnb ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Entry10.html">Software best practices :</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Entry11.html">Projects to undertake:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Entry2.html">Resources for Data Science skills :</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Entry3.html">Hypothesis testing in Statistics:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Entry4.html">Stats Models :</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Entry5.html">Good Readings:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Entry6.html">Experiments Conduct Check :</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Entry7.html">Recommendation Engines:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Entry8.html">Data Science Best Practices :</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Image Classifier for Dog Breed</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Entry8.html" title="previous chapter">Data Science Best Practices :</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, irahul.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/entries/Entry9.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
